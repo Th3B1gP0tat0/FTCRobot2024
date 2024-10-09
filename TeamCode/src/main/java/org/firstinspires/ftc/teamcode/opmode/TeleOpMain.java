@@ -19,6 +19,8 @@ public class TeleOpMain extends OpMode {
 
     private Intake intake;
 
+    private double curTargetRotation;
+
     @Override
     public void init() {
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
@@ -30,6 +32,8 @@ public class TeleOpMain extends OpMode {
         arm = new Arm(this);
 
         intake = new Intake(this);
+
+        curTargetRotation = Arm.ARM_ROTATION_MOVING;
     }
 
     @Override
@@ -86,6 +90,9 @@ public class TeleOpMain extends OpMode {
         if (gamepad2.y) {
             intake.turn();
         }
+
+        curTargetRotation += gamepad2.right_stick_y;
+        arm.setTargetRotation(curTargetRotation);
 
         driveTrain.log();
         slide.log();

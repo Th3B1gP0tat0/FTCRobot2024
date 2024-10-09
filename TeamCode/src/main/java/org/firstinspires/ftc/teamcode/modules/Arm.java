@@ -14,6 +14,9 @@ import org.firstinspires.ftc.teamcode.modules.core.Module;
 @Config
 public class Arm extends Module {
     private final ConditionalHardwareDeviceGroup motors;
+
+    private double rotation;
+
     public static final String LEFT_ARM_MOTOR_NAME = "Left Arm Motor";
     public static final String RIGHT_ARM_MOTOR_NAME = "Right Arm Motor";
     /**
@@ -74,8 +77,13 @@ public class Arm extends Module {
      * @param rotation The desired rotation in degrees
      */
     public void setTargetRotation(double rotation) {
+        this.rotation = rotation;
         // 360 degrees maps to 1 rotation, with a 5:1 gear ratio
         setTargetPosition((int)(rotation * ARM_ENCODER_RESOLUTION * 5 / 360));
+    }
+
+    public double getTargetRotation() {
+        return this.rotation;
     }
     public void updateMotorPowers() {
         motors.executeIfAllAreAvailable(() -> {
