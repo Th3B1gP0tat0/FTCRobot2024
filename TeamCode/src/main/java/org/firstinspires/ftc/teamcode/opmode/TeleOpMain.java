@@ -19,7 +19,7 @@ public class TeleOpMain extends OpMode {
 
     private Intake intake;
 
-    private double curTargetRotation;
+    private final int armSpeed = 20;
 
     @Override
     public void init() {
@@ -32,8 +32,6 @@ public class TeleOpMain extends OpMode {
         arm = new Arm(this);
 
         intake = new Intake(this);
-
-        curTargetRotation = Arm.ARM_ROTATION_MOVING;
     }
 
     @Override
@@ -91,8 +89,7 @@ public class TeleOpMain extends OpMode {
             intake.turn();
         }
 
-        curTargetRotation += gamepad2.right_stick_y;
-        arm.setTargetRotation(curTargetRotation);
+        arm.setTargetRotation(Math.min(Math.max(-120, arm.getTargetRotation() + armSpeed*gamepad2.left_stick_y), -20));
 
         driveTrain.log();
         slide.log();
